@@ -30,6 +30,9 @@ const SPIN_RISE = 0.5 // how high he climbs, as a fraction of his height
 const HEADROOM = 260
 const FOOTROOM = 44
 const SIDEROOM = 96
+// He's framed from a little above the form's top edge (not level with it), so
+// his hair starts just above the first field and the cloud ends at the button.
+const RAISE = 56
 
 // Frame-rate independent easing towards a target.
 const damp = (current, target, rate, dt) => current + (target - current) * (1 - Math.exp(-rate * dt))
@@ -95,15 +98,16 @@ const NimbusGoku = ({ mode = 'idle', onSendEnd }) => {
 
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = container
-      // The part beside the form that he's framed in.
+      // The part he's framed in: beside the form, from RAISE above its top
+      // edge down to the bottom of the Send button.
       const panelW = w - 2 * SIDEROOM
-      const panelH = h - HEADROOM - FOOTROOM
+      const panelH = h - HEADROOM - FOOTROOM + RAISE
       if (panelW <= 0 || panelH <= 0) return
       renderer.setSize(w, h, false)
       camera.aspect = panelW / panelH
       // Frame for the panel alone, then extend the rendered view out into the
       // extra room, so it doesn't change his size or position.
-      camera.setViewOffset(panelW, panelH, -SIDEROOM, -HEADROOM, w, h)
+      camera.setViewOffset(panelW, panelH, -SIDEROOM, -(HEADROOM - RAISE), w, h)
       fitCamera()
     }
 
