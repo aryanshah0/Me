@@ -64,3 +64,7 @@ To add a page, create it in `src/pages/`, add a `<Route>` in `src/App.jsx`, add 
 - With no saved choice, the site follows the OS setting. Clicking the toggle saves a choice.
 - The background ("Goku energy") is the same in both themes: CSS glows on `<body>` plus rising ki sparks drawn by `src/components/KiBackground.jsx`. It pauses when the tab is hidden and stays still for visitors who prefer reduced motion.
 - Accent colors have `ink` variants (`text-saiyan-ink`, `text-kamehameha-ink`) for text on the light background, where the bright accents fail WCAG AA contrast.
+
+## Credits
+
+- 3D model on the contact page: ["Son Goku and Kintoun Nimbus"](https://sketchfab.com/3d-models/son-goku-and-kintoun-nimbus-0e05229282e644ab978d7d9c09ab4ec2) by [Antouss](https://sketchfab.com/antouss), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Compressed for the web as `src/assets/3d/goku-nimbus.glb`; the model is static and all motion is done in code (`src/components/NimbusGoku.jsx`).

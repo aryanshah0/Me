@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import emailjs from '@emailjs/browser'
 import AnimatedText from '../components/AnimatedText'
 import Seo from '../components/Seo'
-import SocialLinks from '../components/SocialLinks'
 import TransitionEffect from '../components/TransitionEffect'
 import { EMAIL } from '../data/profile'
+
+// three.js + the model are only fetched on desktop, where Goku is shown.
+const NimbusGoku = lazy(() => import('../components/NimbusGoku'))
 
 const EMPTY = { name: '', email: '', message: '' }
 
@@ -23,12 +25,30 @@ const Field = ({ id, label, as: Tag = 'input', ...props }) => (
 const Contact = () => {
   const [form, setForm] = useState(EMPTY)
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  // Goku on Nimbus: floats by default, leans in while typing, spins on send.
+  const [pose, setPose] = useState('idle') // idle | typing | send
+  const [showGoku, setShowGoku] = useState(false)
+
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1024px)')
+    const update = () => setShowGoku(desktop.matches)
+    update()
+    desktop.addEventListener('change', update)
+    return () => desktop.removeEventListener('change', update)
+  }, [])
+
+  const handleFocus = () => setPose((p) => (p === 'send' ? p : 'typing'))
+  const handleBlur = (e) => {
+    // Keep leaning in while focus moves between fields of the form.
+    if (!e.currentTarget.contains(e.relatedTarget)) setPose((p) => (p === 'send' ? p : 'idle'))
+  }
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setStatus('sending')
+    setPose('send')
     emailjs
       .send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
@@ -56,8 +76,14 @@ const Contact = () => {
         <div className="w-full h-full inline-block z-0 text-dark dark:text-light p-32 pt-0 pb-16 xl:p-24 xl:pt-0 lg:p-16 lg:pt-0 md:p-12 md:pt-0 sm:p-8 sm:pt-0">
           <AnimatedText text="Get in Touch" className="mb-10 lg:!text-7xl sm:mb-8 sm:!text-5xl xs:!text-4xl" />
 
-          <div className="w-full grid grid-cols-5 gap-16 lg:grid-cols-1 lg:gap-12">
-            <form onSubmit={handleSubmit} className="col-span-3 lg:col-span-1 flex flex-col gap-5" aria-describedby="form-status">
+          <div className="w-full grid grid-cols-5 items-stretch gap-16 lg:grid-cols-1 lg:gap-12">
+            <form
+              onSubmit={handleSubmit}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              className="col-span-3 lg:col-span-1 flex flex-col gap-5"
+              aria-describedby="form-status"
+            >
               <Field
                 id="name"
                 label="Name"
@@ -106,21 +132,42 @@ const Contact = () => {
               </p>
             </form>
 
-            <aside className="col-span-2 lg:col-span-1 rounded-2xl border-2 border-dark dark:border-light/60 bg-light/60 dark:bg-dark/60 backdrop-blur-sm p-8 sm:p-6 h-max">
-              <h2 className="text-2xl font-bold">Prefer email?</h2>
-              <p className="font-medium mt-2 text-dark/80 dark:text-light/80">
-                I’m always happy to talk about full-stack and cloud engineering work, interesting problems, or anime.
+            {/* Goku sits beside the form. His drawing area spans exactly from the
+                top of the form to the bottom of the Send button (the form box also
+                holds the status line below it: 1.5em + gap-5 = bottom-11), and the
+                model is framed to fill that height, so he lines up with the form. */}
+            <div className="col-span-2 lg:hidden relative min-h-[420px]">
+              {/* The canvas also reaches 260px up, 44px down and 96px to each side
+                  (HEADROOM / FOOTROOM / SIDEROOM in NimbusGoku.jsx) so he can corkscrew
+                  and bob without being clipped; it sits behind the text and ignores the mouse. */}
+              <div className="absolute -inset-x-24 -top-[260px] bottom-0 -z-[1] pointer-events-none">
+                {showGoku && (
+                  <Suspense fallback={null}>
+                    <NimbusGoku mode={pose} onSendEnd={() => setPose('idle')} />
+                  </Suspense>
+                )}
+              </div>
+              <p className="absolute inset-x-0 bottom-0 text-xs text-center text-dark/60 dark:text-light/60">
+                Model:{' '}
+                <a
+                  href="https://sketchfab.com/3d-models/son-goku-and-kintoun-nimbus-0e05229282e644ab978d7d9c09ab4ec2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  “Son Goku and Kintoun Nimbus”
+                </a>{' '}
+                by Antouss ·{' '}
+                <a
+                  href="https://creativecommons.org/licenses/by/4.0/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  CC BY 4.0
+                </a>
               </p>
-              <a
-                href={`mailto:${EMAIL}`}
-                className="inline-block mt-4 text-lg font-semibold text-saiyan-ink dark:text-saiyan underline underline-offset-4 break-all"
-              >
-                {EMAIL}
-              </a>
-              <h2 className="text-2xl font-bold mt-8 mb-4">Elsewhere</h2>
-              <SocialLinks iconClassName="w-7" />
-              <p className="font-medium mt-8 text-dark/80 dark:text-light/80">Based in Delhi, India.</p>
-            </aside>
+            </div>
           </div>
         </div>
       </main>
