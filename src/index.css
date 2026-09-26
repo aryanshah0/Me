@@ -1,71 +1,202 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/*
-1. Use a more-intuitive box-sizing model.
-*/
-/* Explain the below psudeo elements:  */
-/* The ::before selector inserts something before the content of each selected element(s). */
-/* The ::after selector inserts something after the content of each selected element(s). */
-/* The * selector selects all elements. */
-*, *::before, *::after {
-  box-sizing: border-box;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+
+@layer components {
+  /* Solid call-to-action button (Résumé, Send message, View live, Back to home). */
+  .btn-primary {
+    @apply inline-flex items-center justify-center bg-dark text-light dark:bg-light dark:text-dark text-lg font-semibold py-2.5 px-6 rounded-lg border-2 border-solid border-transparent transition-colors hover:border-saiyan dark:hover:border-kamehameha md:py-2 md:px-4 md:text-base;
+  }
+
+  /* Big centred section title on the About page (Skills, Experience, …). */
+  .section-heading {
+    @apply font-bold text-8xl mt-32 w-full text-center md:text-6xl xs:text-4xl;
+  }
 }
-/*
-  2. Remove default margin
-*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 * {
   margin: 0;
 }
-/*
-  Typographic tweaks!
-  3. Add accessible line-height
-  4. Improve text rendering
-*/
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  /*
+    "Goku energy": the same design in both themes. A soft kamehameha-blue
+    glow top-left and a saiyan-orange aura bottom-right; only the base color
+    and glow strength change between light and dark. Rising ki sparks are
+    drawn on top by KiBackground.jsx.
+  */
+  --glow-blue: rgba(15, 148, 205, 0.2);
+  --glow-orange: rgba(254, 90, 16, 0.18);
+  background-color: #f6f4f1;
+  background-image:
+    radial-gradient(ellipse 60% 55% at 0% 0%, var(--glow-blue), transparent 70%),
+    radial-gradient(ellipse 60% 55% at 100% 100%, var(--glow-orange), transparent 70%);
+  background-attachment: fixed;
 }
-/*
-  5. Improve media defaults
-*/
-img, picture, video, canvas, svg {
+
+html.dark body {
+  --glow-blue: rgba(15, 148, 205, 0.22);
+  --glow-orange: rgba(254, 90, 16, 0.2);
+  background-color: #07070d;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
-/*
-  6. Remove built-in form typography styles
-*/
-input, button, textarea, select {
+
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 
-input:focus, textarea:focus{
-  outline: none;
-}
-/*
-  7. Avoid text overflows
-*/
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
 }
-/*
-  8. Create a root stacking context
-*/
-#root, #__next {
+
+#root {
   isolation: isolate;
 }
 
+/* Visible keyboard focus everywhere, in both themes. */
+:focus-visible {
+  outline: 2px solid #0f94cd;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: rgba(254, 90, 16, 0.35);
+}
+
 /*
-  Light mode's answer to the dark-mode starfield — soft color blobs in the
-  corners on a clean base, instead of a flat gradient or scattered dots.
+  Headline word-by-word reveal. Pure CSS, so it plays on the prerendered HTML
+  before JavaScript loads and the text is never stuck invisible.
 */
-.sky-mesh {
-  background-color: #f5f5f5;
-  background-image:
-    radial-gradient(at 12% 15%, rgba(15, 148, 205, 0.30) 0px, transparent 55%),
-    radial-gradient(at 88% 85%, rgba(254, 90, 16, 0.26) 0px, transparent 55%);
+@keyframes word-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.6em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.word-rise {
+  display: inline-block;
+  animation: word-rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* #main receives programmatic focus on navigation; no ring needed there. */
+#main:focus {
+  outline: none;
+}
+
+/* Page-entry colour wipe (TransitionEffect.jsx). */
+@keyframes wipe {
+  from {
+    transform: translateX(100%);
+    width: 100vw;
+  }
+  to {
+    transform: translateX(0);
+    width: 0;
+  }
+}
+
+.wipe {
+  animation: wipe 0.8s ease-in-out both;
+}
+
+/* Skills bubbles (Skills.jsx): per-breakpoint positions from skillLayout.js. */
+.skill-bubble {
+  left: var(--left-xl);
+  top: var(--top-xl);
+}
+
+@media (max-width: 1023px) {
+  .skill-bubble {
+    left: var(--left-lg);
+    top: var(--top-lg);
+  }
+}
+
+@media (max-width: 767px) {
+  .skill-bubble {
+    left: var(--left-md);
+    top: var(--top-md);
+  }
+}
+
+@media (max-width: 479px) {
+  .skill-bubble {
+    left: var(--left-xs);
+    top: var(--top-xs);
+  }
+}
+
+/* Parked at the centre until scrolled into view, then fly out to their spot. */
+.skill-bubble--waiting {
+  left: 50% !important;
+  top: 50% !important;
+  opacity: 0;
+}
+
+@keyframes skill-fly {
+  from {
+    left: 50%;
+    top: 50%;
+    opacity: 0;
+  }
+}
+
+.skill-bubble--fly {
+  animation: skill-fly 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }

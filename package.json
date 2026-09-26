@@ -1,27 +1,24 @@
 {
   "name": "aryanshah",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-server && node scripts/prerender.js",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "serve dist",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "@react-three/drei": "^9.114.0",
-    "@react-three/fiber": "^8.17.9",
-    "@tsparticles/engine": "^4.3.2",
-    "@tsparticles/preset-stars": "^4.3.2",
-    "@tsparticles/react": "^4.3.2",
+    "@fontsource-variable/montserrat": "^5.3.0",
     "framer-motion": "^11.3.29",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
-    "react-router-dom": "^6.26.1",
-    "three": "^0.169.0"
+    "react-router-dom": "^6.26.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
@@ -35,6 +32,8 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "postcss": "^8.4.41",
+    "prettier": "^3.9.9",
+    "serve": "^14.2.6",
     "tailwindcss": "^3.4.10",
     "vite": "^5.4.1"
   }

@@ -1,50 +1,61 @@
-import React from 'react'
+import { useCallback, useEffect, useSyncExternalStore } from 'react'
+
+// The initial theme is applied by an inline script in index.html before first
+// paint (no light flash for dark-mode users). This hook only reads the class
+// that script set and keeps it in sync afterwards.
+//
+// Rules:
+// - With no saved choice, follow the OS setting, live.
+// - Clicking the toggle saves an explicit choice, which then wins.
+
+const STORAGE_KEY = 'theme'
+const media = () => window.matchMedia('(prefers-color-scheme: dark)')
+
+const readSaved = () => {
+  try {
+    return window.localStorage.getItem(STORAGE_KEY)
+  } catch {
+    return null
+  }
+}
+
+const apply = (mode) => {
+  document.documentElement.classList.toggle('dark', mode === 'dark')
+}
+
+const subscribe = (callback) => {
+  const observer = new MutationObserver(callback)
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+  return () => observer.disconnect()
+}
+
+const getSnapshot = () => (document.documentElement.classList.contains('dark') ? 'dark' : 'light')
+// Prerendered HTML has no idea of the visitor's theme; React re-renders the
+// toggle icon right after hydration using the client snapshot.
+const getServerSnapshot = () => 'dark'
 
 const useThemeSwitcher = () => {
+  const mode = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
-  const prefersDarkMode = '(prefers-color-scheme: dark)';
-  const userPref=window.localStorage.getItem('theme');
-
-  const [mode, setMode] = React.useState(userPref || '');
-
-  React.useEffect(() => {
-    const mediaQuery = window.matchMedia(prefersDarkMode);
-
-    const handleChange=()=>{
-        if(!userPref){
-          let check=mediaQuery.matches ? 'dark' : 'light';
-
-          setMode(check);
-  
-          if(check==='dark'){
-            document.documentElement.classList.add('dark');
-          }
-          else{
-            document.documentElement.classList.remove('dark');
-          }
-        }  
+  useEffect(() => {
+    const mq = media()
+    const onChange = () => {
+      if (!readSaved()) apply(mq.matches ? 'dark' : 'light')
     }
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
-    mediaQuery.addEventListener('change', handleChange);
-
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [userPref]);
-
-  //update the theme in local storage
-  React.useEffect(()=>{
-    if(mode==='light'){
-      window.localStorage.setItem('theme', 'light');
-      document.documentElement.classList.remove('dark');
+  const setMode = useCallback((next) => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, next)
+    } catch {
+      // Private mode or blocked storage: the choice just won't persist.
     }
-    else{
-      window.localStorage.setItem('theme', 'dark');
-      document.documentElement.classList.add('dark');
-    }
-  }, [mode]);
+    apply(next)
+  }, [])
 
-  return (
-    [mode, setMode]
-  )
+  return [mode, setMode]
 }
 
 export default useThemeSwitcher

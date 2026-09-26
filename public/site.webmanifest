@@ -1,0 +1,8 @@
+{
+  "name": "Aryan Shah",
+  "short_name": "Aryan Shah",
+  "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }],
+  "theme_color": "#FE5A10",
+  "background_color": "#07070d",
+  "display": "browser"
+}

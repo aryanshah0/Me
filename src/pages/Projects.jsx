@@ -1,147 +1,127 @@
-import Seo from "../components/Seo";
-import AnimatedText from "../components/AnimatedText";
-import project0 from "../assets/images/project0.png";
-import project1 from "../assets/images/project1.png";
-import project2 from "../assets/images/project2.png";
-import project3 from "../assets/images/project3.png";
-import { GithubIcon } from "../components/Icons";
-import { motion } from "framer-motion";
-import TransitionEffect from "../components/TransitionEffect";
+import { motion } from 'framer-motion'
+import AnimatedText from '../components/AnimatedText'
+import Seo from '../components/Seo'
+import TransitionEffect from '../components/TransitionEffect'
+import { GithubIcon } from '../components/Icons'
+import { PROJECTS, WORK_HIGHLIGHTS } from '../data/profile'
 
-const Projects = () => {
+const StackList = ({ stack }) => (
+  <ul className="flex flex-wrap gap-2 mt-3" aria-label="Tech stack">
+    {stack.map((s) => (
+      <li key={s} className="text-xs font-semibold rounded-full border border-dark/30 dark:border-light/30 px-2.5 py-1">
+        {s}
+      </li>
+    ))}
+  </ul>
+)
+
+const ProjectLinks = ({ title, live, github }) => (
+  <div className="mt-4 flex items-center gap-4">
+    <a href={github} target="_blank" rel="noopener noreferrer" aria-label={`${title} source code on GitHub`} className="w-10 md:w-8">
+      <GithubIcon />
+    </a>
+    {live && (
+      <a href={live} target="_blank" rel="noopener noreferrer" className="btn-primary">
+        View live<span className="sr-only">: {title}</span>
+      </a>
+    )}
+  </div>
+)
+
+const ProjectCard = ({ title, description, stack, image, imageAlt, live, github, featured }) => {
+  const href = live || github
   return (
-    <>
-      <Seo
-        title="Projects"
-        path="/projects"
-        description="A selection of web applications Aryan Shah has built, from a hostel management system to full-stack clones exploring different frontend and backend patterns."
+    <article
+      className={`w-full h-full flex relative rounded-3xl border border-solid border-dark dark:border-light bg-light dark:bg-dark text-dark dark:text-light ${
+        featured ? 'items-center justify-between shadow-2xl p-10 lg:flex-col lg:p-8 xs:p-4' : 'flex-col items-start p-6 xs:p-4'
+      }`}
+    >
+      <div
+        aria-hidden="true"
+        className="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2.5rem] bg-dark dark:bg-light rounded-br-3xl xs:-right-2 xs:w-full"
       />
 
-      <TransitionEffect />
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        tabIndex={-1}
+        aria-hidden="true"
+        className={`overflow-hidden rounded-2xl ${featured ? 'w-1/2 lg:w-full' : 'w-full'}`}
+      >
+        <motion.img
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.3 }}
+          src={image}
+          alt={imageAlt}
+          loading={featured ? 'eager' : 'lazy'}
+          decoding="async"
+          className="w-full h-auto aspect-video object-cover object-top"
+        />
+      </a>
 
-      <main className="flex flex-col items-center justify-center w-full">
-        <div className="w-full h-full inline-block z-0 bg-transparent p-32 pt-0 md:px-10">
-          <AnimatedText text="Where Ideas meet execution" className="mb-10 lg:!text-7xl sm:mb-8 sm:!text-6xl xs:!text-4xl" />
+      <div className={`flex flex-col items-start ${featured ? 'w-1/2 pl-6 lg:w-full lg:pl-0 lg:pt-6' : 'w-full mt-4'}`}>
+        <span className="text-kamehameha-ink dark:text-kamehameha font-medium text-xl xs:text-base">
+          {featured ? 'Featured project' : 'Side project'}
+        </span>
+        <h3 className={`my-2 font-bold ${featured ? 'text-4xl sm:text-2xl' : 'text-3xl lg:text-2xl'}`}>{title}</h3>
+        <p className="font-medium text-dark/80 dark:text-light/80 sm:text-sm">{description}</p>
+        <StackList stack={stack} />
+        <ProjectLinks title={title} live={live} github={github} />
+      </div>
+    </article>
+  )
+}
 
-          <div className="grid grid-cols-12 gap-24 gap-y-32 xl:gap-x-16 lg:gap-x-8 md:gap-y-24 sm:gap-x-0">
+const Projects = () => (
+  <>
+    <Seo
+      title="Projects"
+      path="/projects"
+      description="Cloud products Aryan Shah has shipped at E2E Cloud (VM auto scaling, VM images, E2E Marketplace) and full-stack side projects built with React, Node.js and MongoDB."
+    />
+    <TransitionEffect />
 
-            <div className="col-span-12">
+    <main id="main" className="flex flex-col items-center justify-center w-full">
+      <div className="w-full h-full inline-block z-0 text-dark dark:text-light p-32 pt-0 xl:p-24 xl:pt-0 lg:p-16 lg:pt-0 md:p-12 md:pt-0 sm:p-8 sm:pt-0">
+        <AnimatedText text="Where ideas meet execution" className="mb-10 lg:!text-7xl sm:mb-8 sm:!text-5xl xs:!text-4xl" />
 
-              <article className="w-full flex items-center justify-between rounded-3xl border border-solid border-dark dark:border-light bg-light dark:bg-dark shadow-2xl p-10 relative rounded-br-2xl lg:flex-col lg:p-8 xs:rounded-2xl xs:rounded-br-3xl xs:p-4">
+        <section aria-labelledby="work-heading" className="mb-24">
+          <h2 id="work-heading" className="text-4xl font-bold mb-2 sm:text-3xl">
+            Shipped at E2E Cloud
+          </h2>
+          <p className="font-medium text-dark/75 dark:text-light/75 mb-8">
+            Production features in public cloud consoles. The code is private, so here’s what they do.
+          </p>
+          <ul className="grid grid-cols-2 gap-8 md:grid-cols-1">
+            {WORK_HIGHLIGHTS.map(({ title, product, description }) => (
+              <li
+                key={title}
+                className="rounded-2xl border-2 border-dark dark:border-light/60 bg-light/60 dark:bg-dark/60 backdrop-blur-sm p-8 sm:p-6 border-l-8 border-l-saiyan dark:border-l-saiyan"
+              >
+                <p className="text-sm font-semibold uppercase tracking-wide text-kamehameha-ink dark:text-kamehameha">{product}</p>
+                <h3 className="text-2xl font-bold mt-1">{title}</h3>
+                <p className="font-medium mt-2 text-dark/80 dark:text-light/80">{description}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
 
-                <div className="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2.5rem] bg-dark dark:bg-light rounded-br-3xl xs:-right-2 sm:h-[102%] xs:w-full xs:rounded-[1.5rem]" />
+        <section aria-labelledby="side-heading">
+          <h2 id="side-heading" className="text-4xl font-bold mb-10 sm:text-3xl">
+            Side projects
+          </h2>
+          <ul className="grid grid-cols-12 gap-24 gap-y-24 xl:gap-x-16 lg:gap-x-8 md:gap-y-16 sm:gap-x-0">
+            {PROJECTS.map((p) => (
+              <li key={p.title} className={p.featured ? 'col-span-12' : 'col-span-6 sm:col-span-12'}>
+                <ProjectCard {...p} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </main>
+  </>
+)
 
-                <a href="https://hostel-management-frontend-plum.vercel.app" target="_blank" className="w-1/2 cursor-pointer overflow-hidden lg:w-full">
-                  <motion.img transition={{duration: 0.3}} src={project0} alt="Hostel Management and Complaint Registration" className="w-full h-auto" />
-                </a>
-
-                <div className="w-1/2 flex flex-col items-start justify-between pl-6 lg:w-full lg:pl-0 lg:pt-6">
-                  <span className="text-kamehameha font-medium text-xl xs:text-base">Featured Project</span>
-                  <a href="https://hostel-management-frontend-plum.vercel.app" target="_blank" className="hover:underline underline-offset-2">
-                    <h2 className="my-2 w-full text-left text-4xl font-bold text-dark dark:text-light sm:text-sm">Hostel Management and Complaint Registration System</h2>
-                  </a>
-                  <p className="my-2 font-medium text-dark dark:text-light/75 sm:text-sm">A web platform for hostel administration and student grievance handling — residents can log and track complaints, while wardens manage rooms, allocations, and resolutions from a central dashboard.</p>
-
-                  <div className="mt-2 flex items-center gap-4">
-                    <a href="https://github.com/Fast5/Hostel-Management-Frontend" target="_blank" className="w-10 dark:text-light">
-                      <GithubIcon />{" "}
-                    </a>
-                    <a href="https://hostel-management-frontend-plum.vercel.app" target="_blank" className="bg-dark text-light dark:bg-light dark:text-dark px-4 py-2 p-2 text-lg font-semibold rounded-lg sm:px-4 sm:text-base border-2 border-transparent hover:border-saiyan dark:hover:border-kamehameha transition-colors">
-                      View live
-                    </a>
-                  </div>
-                </div>
-              </article>
-            </div>
-            
-            <div className="col-span-6 sm:col-span-12">
-              <article className="w-full flex flex-col items-center justify-center rounded-2xl border border-solid border-dark bg-light dark:border-light dark:bg-dark p-6 relative xs:p-4">
-
-                <div className="absolute top-0 -right-3 -z-10 w-[103%] h-[103%] rounded-[2rem] bg-dark dark:bg-light rounded-br-3xl md:-right-2 md:w-[102%] xs:h-[102%] xs:rounded-[1.5rem]" />
-
-                <a href="https://airbnb-clone-frontend-mocha.vercel.app" target="_blank" className="w-full cursor-pointer overflow-hidden rounded-3xl">
-                  <img src={project1} alt="Hostel Management and Complaint Registration" className="w-full h-auto rounded-3xl" />
-                </a>
-
-                <div className="w-full flex flex-col items-start justify-between mt-4 text-dark dark:text-light">
-                  <span className="text-kamehameha font-medium text-xl lg:text-lg md:text-base">Personal Project</span>
-                  <a href="https://airbnb-clone-frontend-mocha.vercel.app" target="_blank" className="hover:underline underline-offset-2">
-                    <h2 className="my-2 w-full text-left text-3xl font-bold lg:text-2xl">Airbnb Clone</h2>
-                  </a>
-
-                  <div className="w-full mt-2 flex items-center justify-between">
-                    <a href="https://github.com/AryanShah874/Airbnb-clone_Frontend" target="_blank" className="w-8 md:w-6">
-                      <GithubIcon />{" "}
-                    </a>
-                    <a href="https://airbnb-clone-frontend-mocha.vercel.app" target="_blank" className="text-md underline font-semibold md:text-base">
-                      Live
-                    </a>
-                  </div>
-                </div>
-              </article>
-            </div>
-
-            <div className="col-span-6 sm:col-span-12">
-              <article className="w-full flex flex-col items-center justify-center rounded-2xl border border-solid border-dark bg-light dark:border-light dark:bg-dark p-6 relative xs:p-4">
-                
-                <div className="absolute top-0 -right-3 -z-10 w-[103%] h-[103%] rounded-[2rem] bg-dark dark:bg-light rounded-br-3xl md:-right-2 md:w-[102%] xs:h-[102%] xs:rounded-[1.5rem]" />
-                
-                <a href="https://github.com/AryanShah874/Threads-Frontend" target="_blank" className="w-full cursor-pointer overflow-hidden rounded-3xl">
-                  <img src={project3} alt="Threads Clone" className="w-full h-auto rounded-3xl" />
-                </a>
-
-                <div className="w-full flex flex-col items-start justify-between mt-4 text-dark dark:text-light">
-                  <span className="text-kamehameha font-medium text-xl lg:text-lg md:text-base">Personal Project</span>
-                  <a href="https://github.com/AryanShah874/Threads-Frontend" target="_blank" className="hover:underline underline-offset-2">
-                    <h2 className="my-2 w-full text-left text-3xl font-bold lg:text-2xl">Threads Clone</h2>
-                  </a>
-
-                  <div className="w-full mt-2 flex items-center justify-between text-dark dark:text-light">
-                    <a href="https://github.com/AryanShah874/Threads-Frontend" target="_blank" className="w-8 md:w-6">
-                      <GithubIcon />{" "}
-                    </a>
-                    {/* <a href="https://resilient-croissant-511a94.netlify.app" target="_blank" className="text-md underline font-semibold">
-                      Live
-                    </a> */}
-                  </div>
-                </div>
-              </article>
-            </div>
-
-            <div className="col-span-6 sm:col-span-12">
-              <article className="w-full flex flex-col items-center justify-center rounded-2xl border border-solid border-dark bg-light dark:border-light dark:bg-dark p-6 relative xs:p-4">
-                
-                <div className="absolute top-0 -right-3 -z-10 w-[103%] h-[103%] rounded-[2rem] bg-dark dark:bg-light rounded-br-3xl md:-right-2 md:w-[102%] xs:h-[102%] xs:rounded-[1.5rem]" />
-                
-                <a href="https://resilient-croissant-511a94.netlify.app" target="_blank" className="w-full cursor-pointer overflow-hidden rounded-3xl">
-                  <img src={project2} alt="DALL-E Clone" className="w-full h-auto rounded-3xl" />
-                </a>
-
-                <div className="w-full flex flex-col items-start justify-between mt-4 text-dark dark:text-light">
-                  <span className="text-kamehameha font-medium text-xl lg:text-lg md:text-base">Personal Project</span>
-                  <a href="https://resilient-croissant-511a94.netlify.app" target="_blank" className="hover:underline underline-offset-2">
-                    <h2 className="my-2 w-full text-left text-3xl font-bold lg:text-2xl">DALL-E Clone</h2>
-                  </a>
-
-                  <div className="w-full mt-2 flex items-center justify-between text-dark dark:text-light">
-                    <a href="https://github.com/AryanShah874/Dall-E-Clone_Frontend" target="_blank" className="w-8 md:w-6">
-                      <GithubIcon />{" "}
-                    </a>
-                    <a href="https://resilient-croissant-511a94.netlify.app" target="_blank" className="text-md underline font-semibold md:text-base">
-                      Live
-                    </a>
-                  </div>
-                </div>
-              </article>
-            </div>
-
-            {/* <div className="col-span-6">Project3</div>
-            <div className="col-span-6">Project4</div> */}
-          </div>
-        </div>
-      </main>
-    </>
-  );
-};
-
-export default Projects;
+export default Projects

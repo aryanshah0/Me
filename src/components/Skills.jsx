@@ -1,46 +1,69 @@
-import { useRef } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { useInView } from 'framer-motion'
+import { SKILL_RINGS } from '../data/profile'
 
-const Skill=({name, x, y})=>{
-  const ref=useRef(null);
+import { layout, PRESETS } from './skillLayout'
 
-  return(
-    <motion.div ref={ref} whileHover={{scale: 1.1}} initial={{x: 0, y: 0}} whileInView={{x:x, y:y, transition: {duration: 1.5}}} viewport={{once: true}} className='flex justify-center items-center bg-dark text-light dark:bg-light dark:text-dark py-3 px-6 lg:py-2 lg:px-4 md:py-1.5 md:px-3 md:text-sm xs:bg-transparent xs:dark:bg-transparent xs:text-dark xs:dark:text-light xs:font-bold rounded-full absolute cursor-pointer'>
-      {name}
-    </motion.div>
-  )
+// Skills orbiting a centre bubble. Positions come from skillLayout.js, solved
+// separately for desktop, tablet and phone so bubbles never overlap; CSS
+// variables pick the right set per breakpoint (see .skill-bubble in index.css).
+const LAYOUTS = Object.fromEntries(Object.entries(PRESETS).map(([k, preset]) => [k, layout(SKILL_RINGS, preset)]))
+const NAMES = SKILL_RINGS.flat()
+
+const positionVars = (name) => {
+  const vars = {}
+  for (const [k, pos] of Object.entries(LAYOUTS)) {
+    vars[`--left-${k}`] = `${pos[name].left.toFixed(2)}%`
+    vars[`--top-${k}`] = `${pos[name].top.toFixed(2)}%`
+  }
+  return vars
 }
 
 const Skills = () => {
-  return (
-    <>
-      <h2 className='font-bold text-8xl mt-32 w-full text-center md:text-6xl'>Skills</h2>
-      <div className='w-full h-screen relative flex items-center justify-center rounded-full bg-circularLight dark:bg-circularDark lg:bg-circularLightLg lg:dark:bg-circularDarkLg md:bg-circularLightMd md:dark:bg-circularDarkMd sm:bg-circularLightSm sm:dark:bg-circularDarkSm lg:h-[80vh] sm:h-[60vh] xs:h-[50vh]'>
-        <motion.div whileHover={{scale: 1.05}} className='flex justify-center items-center bg-dark text-light dark:bg-light dark:text-dark p-6 lg:p-5 md:p-3 xs:p-2 xs:text-sm rounded-full cursor-pointer'>
-          Web
-        </motion.div>
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, amount: 0.3 })
+  // 'static' on the server and first paint (bubbles already in place, so the
+  // prerendered page is complete), 'waiting' once hydrated if the section is
+  // below the fold, then 'fly' when scrolled into view: a CSS animation out
+  // from the centre. If it's already on screen at mount, it stays 'static'
+  // (useInView starts false before its observer fires, so measure directly).
+  const [phase, setPhase] = useState('static')
 
-        <Skill name='HTML' x='-5vw' y='-6vw'/>
-        <Skill name='CSS' x='15vw' y='-6vw'/>
-        <Skill name='JS' x='17vw' y='10vw'/>
-        <Skill name='Tailwind' x='-25vw' y='-16vw'/>
-        {/* <Skill name='Chakra UI' x='0' y='-15vw'/> */}
-        {/* <Skill name='Styled Components' x='0' y='-25vw'/> */}
-        <Skill name='Framer Motion' x='-20vw' y='18vw'/>
-        {/* <Skill name='ThreeJS' x='0' y='-45vw'/> */}
-        <Skill name='ReactJS' x='2vw' y='18vw'/>
-        <Skill name='NodeJS' x='-20vw' y='8vw'/>
-        <Skill name='Express' x='-31vw' y='0'/>
-        <Skill name='MongoDB' x='-19vw' y='-8vw'/>
-        <Skill name='SQL' x='0' y='-18vw'/>
-        <Skill name='Git' x='18vw' y='-18vw'/>
-        <Skill name='Firebase' x='30vw' y='1vw'/>
-        <Skill name='Appwrite' x='1vw' y='7vw'/>
-        <Skill name='Docker' x='28vw' y='16vw'/>
-        <Skill name='Kubernetes' x='-14vw' y='-19vw'/>
-        <Skill name='TypeScript' x='32vw' y='-10vw'/>
+  useEffect(() => {
+    const rect = ref.current.getBoundingClientRect()
+    const onScreen = rect.top < window.innerHeight && rect.bottom > 0
+    if (!onScreen) setPhase('waiting')
+  }, [])
+
+  useEffect(() => {
+    if (inView) setPhase((p) => (p === 'waiting' ? 'fly' : p))
+  }, [inView])
+
+  return (
+    <section aria-labelledby="skills-heading">
+      <h2 id="skills-heading" className="section-heading">
+        Skills
+      </h2>
+      <div
+        ref={ref}
+        className="w-full aspect-[4/3] mx-auto relative flex items-center justify-center rounded-full bg-circularLight dark:bg-circularDark lg:bg-circularLightLg lg:dark:bg-circularDarkLg md:bg-circularLightMd md:dark:bg-circularDarkMd sm:bg-circularLightSm sm:dark:bg-circularDarkSm md:aspect-[3/4]"
+      >
+        <p className="flex justify-center items-center text-center bg-dark text-light dark:bg-light dark:text-dark p-6 w-28 h-28 lg:w-24 lg:h-24 md:w-20 md:h-20 md:p-3 xs:w-16 xs:h-16 xs:text-xs font-bold rounded-full shadow-[0_0_40px_rgba(254,90,16,0.55)] md:text-sm">
+          Full-stack
+        </p>
+        <ul aria-label="Skills">
+          {NAMES.map((name) => (
+            <li
+              key={name}
+              className={`skill-bubble absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap bg-dark text-light dark:bg-light dark:text-dark font-semibold rounded-full py-3 px-6 lg:py-2 lg:px-4 md:py-1 md:px-2.5 md:text-xs xs:py-0.5 xs:px-2 xs:text-[10px] transition-transform hover:scale-110 ${phase === 'waiting' ? 'skill-bubble--waiting' : ''} ${phase === 'fly' ? 'skill-bubble--fly' : ''}`}
+              style={positionVars(name)}
+            >
+              {name}
+            </li>
+          ))}
+        </ul>
       </div>
-    </>
+    </section>
   )
 }
 
