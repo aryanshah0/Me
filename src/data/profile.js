@@ -21,10 +21,9 @@ export const SUMMARY =
   'I’m Aryan Shah, an Associate Software Engineer at E2E Cloud in Delhi. I build the consoles people use to run GPU and cloud infrastructure: VM auto scaling, machine images, compute provisioning, load balancers and the sign-in flows in front of them.'
 
 export const SOCIALS = [
-  { name: 'GitHub', href: 'https://github.com/AryanShah874' },
+  { name: 'GitHub', href: 'https://github.com/aryanshah0' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/4ryanshah/' },
   { name: 'X (Twitter)', href: 'https://x.com/4ryanshah' },
-  { name: 'Instagram', href: 'https://www.instagram.com/4ryan_shah' },
 ]
 
 export const EXPERIENCE = [
@@ -132,7 +131,7 @@ export const PROJECTS = [
     image: airbnbImg,
     imageAlt: 'Airbnb clone listings page',
     live: 'https://airbnb-clone-frontend-mocha.vercel.app',
-    github: 'https://github.com/AryanShah874/Airbnb-clone_Frontend',
+    github: 'https://github.com/aryanshah0/Airbnb-clone_Frontend',
   },
   {
     title: 'DALL·E Clone',
@@ -141,7 +140,7 @@ export const PROJECTS = [
     image: dalleImg,
     imageAlt: 'DALL·E clone community showcase',
     live: 'https://resilient-croissant-511a94.netlify.app',
-    github: 'https://github.com/AryanShah874/Dall-E-Clone_Frontend',
+    github: 'https://github.com/aryanshah0/Dall-E-Clone_Frontend',
   },
   {
     title: 'Threads Clone',
@@ -149,7 +148,7 @@ export const PROJECTS = [
     stack: ['React', 'Chakra UI', 'Recoil', 'Vite'],
     image: threadsImg,
     imageAlt: 'Threads clone profile page',
-    github: 'https://github.com/AryanShah874/Threads-Frontend',
+    github: 'https://github.com/aryanshah0/Threads-Frontend',
   },
 ]
 

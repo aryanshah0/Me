@@ -1,12 +1,11 @@
 import { motion } from 'framer-motion'
-import { GithubIcon, LinkedInIcon, InstagramIcon, TwitterIcon } from './Icons'
+import { GithubIcon, LinkedInIcon, TwitterIcon } from './Icons'
 import { SOCIALS } from '../data/profile'
 
 const ICONS = {
   GitHub: GithubIcon,
   LinkedIn: LinkedInIcon,
   'X (Twitter)': (props) => <TwitterIcon {...props} className="rounded-md" />,
-  Instagram: InstagramIcon,
 }
 
 const SocialLinks = ({ className = '', iconClassName = 'w-6' }) => (
