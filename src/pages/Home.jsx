@@ -23,7 +23,7 @@ const Home = () => (
               // React 18 only knows the lowercase attribute; spread keeps the linter happy.
               {...{ fetchpriority: 'high' }}
               alt="Illustration of Goku, the portfolio's mascot"
-              className="w-full h-auto"
+              className="hero-float w-full h-auto"
             />
           </div>
 

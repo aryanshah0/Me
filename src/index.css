@@ -200,3 +200,19 @@ h6 {
 .skill-bubble--fly {
   animation: skill-fly 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
+
+/* Home hero Goku: a gentle idle float (reduced-motion users get a still image
+   via the global prefers-reduced-motion rule above). */
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+.hero-float {
+  animation: hero-float 4s ease-in-out infinite;
+}
