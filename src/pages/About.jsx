@@ -18,7 +18,7 @@ const About = () => (
 
     <main id="main" className="flex flex-col items-center justify-center w-full">
       <div className="w-full h-full inline-block z-0 text-dark dark:text-light p-32 pt-0 xl:p-24 xl:pt-0 lg:p-16 lg:pt-0 md:p-12 md:pt-0 sm:p-8 sm:pt-0">
-        <AnimatedText text="Building the cloud, one console at a time" className="mb-14 lg:!text-7xl sm:!text-5xl xs:!text-4xl sm:mb-8" />
+        <AnimatedText text='Trust Me, I Am a "Programmer"' className="mb-14 lg:!text-7xl sm:!text-5xl xs:!text-4xl sm:mb-8" />
 
         <div className="w-full grid grid-cols-8 gap-16 items-center sm:gap-8">
           <div className="col-span-5 xl:col-span-4 md:order-2 md:col-span-8 flex flex-col items-start justify-start">

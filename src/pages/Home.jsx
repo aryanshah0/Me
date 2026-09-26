@@ -12,7 +12,7 @@ const Home = () => (
     <Seo path="/" />
     <TransitionEffect />
 
-    <main id="main" className="flex items-center text-dark dark:text-light w-full min-h-[calc(100vh-8rem)]">
+    <main id="main" className="relative flex items-center text-dark dark:text-light w-full min-h-[calc(100vh-8rem)]">
       <div className="w-full h-full inline-block z-0 p-32 pt-0 xl:p-24 xl:pt-0 lg:p-16 lg:pt-0 md:p-12 md:pt-16 sm:p-8 sm:pt-8">
         <div className="flex items-center justify-between w-full lg:flex-col">
           <div className="w-1/2 py-8 lg:hidden md:block md:w-full md:max-w-sm md:mx-auto">

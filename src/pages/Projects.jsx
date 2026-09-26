@@ -84,7 +84,7 @@ const Projects = () => (
 
     <main id="main" className="flex flex-col items-center justify-center w-full">
       <div className="w-full h-full inline-block z-0 text-dark dark:text-light p-32 pt-0 xl:p-24 xl:pt-0 lg:p-16 lg:pt-0 md:p-12 md:pt-0 sm:p-8 sm:pt-0">
-        <AnimatedText text="Where ideas meet execution" className="mb-10 lg:!text-7xl sm:mb-8 sm:!text-5xl xs:!text-4xl" />
+        <AnimatedText text="Where Ideas Meet Execution" className="mb-10 lg:!text-7xl sm:mb-8 sm:!text-5xl xs:!text-4xl" />
 
         <section aria-labelledby="work-heading" className="mb-24">
           <h2 id="work-heading" className="text-4xl font-bold mb-2 sm:text-3xl">

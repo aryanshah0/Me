@@ -33,7 +33,7 @@ const ThemeToggle = ({ mode, setMode, className = '' }) => {
       type="button"
       onClick={() => setMode(next)}
       aria-label={`Switch to ${next} mode`}
-      className={`flex items-center justify-center rounded-full p-1 w-9 h-9 ${mode === 'dark' ? 'bg-light text-dark' : 'bg-dark text-light'} ${className}`}
+      className={`flex items-center justify-center rounded-full p-1 ${className}`}
     >
       {mode === 'dark' ? <SunIcon className="fill-dark" /> : <MoonIcon className="fill-light" />}
     </button>

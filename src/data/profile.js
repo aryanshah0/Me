@@ -47,7 +47,7 @@ export const EXPERIENCE = [
     location: 'Delhi, India',
     points: [
       'Owned the E2E Marketplace frontend end to end: design system, billing and KYC flows, E2E tests and monitoring.',
-      'Built compute provisioning and a rebuilt OTP and social sign-up in the Angular MyAccount console.',
+      'Built compute provisioning in the Angular MyAccount console and rebuilt its sign-up with OTP and social login.',
     ],
   },
   {
@@ -121,7 +121,7 @@ export const PROJECTS = [
       'A role-based platform for running a college hostel. Admins manage hostels, rooms and staff; wardens allocate rooms; students raise and track complaints through to resolution.',
     stack: ['React', 'Node.js', 'Express', 'MongoDB', 'JWT auth'],
     image: hostelImg,
-    imageAlt: 'Hostel Management System dashboard',
+    imageAlt: 'Hostel Management System home page',
     live: 'https://hostel-management-frontend-plum.vercel.app',
     github: 'https://github.com/Fast5/Hostel-Management-Frontend',
   },
@@ -155,9 +155,10 @@ export const PROJECTS = [
 
 // Skills bubbles, inner ring to outer ring: core stack in the middle.
 export const SKILL_RINGS = [
-  ['React', 'TypeScript', 'Node.js', 'Angular', 'Redux Toolkit', 'MongoDB'],
-  ['JavaScript', 'Express', 'Playwright', 'Docker', 'Tailwind', 'Vitest', 'GitLab CI', 'REST APIs'],
-  ['MUI', 'Vite', 'SQL', 'SonarQube', 'Git', 'Sentry', 'PostHog', 'Bun'],
+  // Inner ring: backend, closest to the "Full-stack" hub.
+  ['Node.js', 'Express', 'Django', 'Python', 'MongoDB', 'REST APIs', 'Postman'],
+  ['React', 'TypeScript', 'Angular', 'Redux Toolkit', 'JavaScript', 'Mongoose', 'JWT auth', 'OAuth', 'Firebase'],
+  ['Appwrite', 'Cloudinary', 'SQL', 'Playwright', 'Vitest', 'Docker', 'GitLab CI', 'Git', 'Sentry', 'PostHog', 'Tailwind'],
 ]
 
 export const CERTIFICATIONS = [

@@ -306,7 +306,6 @@ export const CircularText = ({ className = '', ...rest }) => (
     className={`w-full h-auto ${className}`}
     preserveAspectRatio="xMidYMid meet"
   >
-    <metadata>Created by potrace 1.10, written by Peter Selinger 2001-2011</metadata>
     <g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" stroke="none">
       <path d="M1445 2395 c-29 -28 -32 -61 -9 -93 13 -19 23 -23 62 -20 28 2 47 8 50 17 4 11 -3 13 -29 9 -41 -6 -59 -1 -59 18 0 10 14 14 54 14 52 0 53 1 48 25 -10 55 -76 72 -117 30z m75 -20 c7 -8 11 -15 9 -16 -48 -8 -69 -7 -69 4 0 30 39 37 60 12z" />
       <path d="M1599 2398 c-6 -70 -10 -105 -14 -115 -2 -8 4 -13 14 -13 15 0 21 10 26 39 7 41 27 67 44 57 5 -3 12 1 15 10 9 25 8 27 -19 22 -14 -3 -28 -1 -31 3 -8 14 -34 11 -35 -3z" />

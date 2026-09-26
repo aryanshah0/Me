@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom'
 import { CircularText } from './Icons'
 
 const HireMe = () => (
-  <div className="fixed left-4 bottom-4 z-10 lg:hidden flex justify-center items-center overflow-hidden">
-    <div className="w-40 h-auto flex items-center justify-center relative md:w-24">
+  <div className="absolute left-4 bottom-4 z-10 lg:hidden flex justify-center items-center overflow-hidden">
+    <div className="w-48 h-auto flex items-center justify-center relative md:w-24">
       <CircularText className="animate-spin-slow fill-dark dark:fill-light" />
       <Link
         to="/contact"

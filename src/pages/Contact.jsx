@@ -54,7 +54,7 @@ const Contact = () => {
 
       <main id="main" className="flex flex-col justify-center items-center w-full">
         <div className="w-full h-full inline-block z-0 text-dark dark:text-light p-32 pt-0 pb-16 xl:p-24 xl:pt-0 lg:p-16 lg:pt-0 md:p-12 md:pt-0 sm:p-8 sm:pt-0">
-          <AnimatedText text="Get in touch" className="mb-10 lg:!text-7xl sm:mb-8 sm:!text-5xl xs:!text-4xl" />
+          <AnimatedText text="Get in Touch" className="mb-10 lg:!text-7xl sm:mb-8 sm:!text-5xl xs:!text-4xl" />
 
           <div className="w-full grid grid-cols-5 gap-16 lg:grid-cols-1 lg:gap-12">
             <form onSubmit={handleSubmit} className="col-span-3 lg:col-span-1 flex flex-col gap-5" aria-describedby="form-status">

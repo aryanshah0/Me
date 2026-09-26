@@ -46,16 +46,16 @@ const Skills = () => {
       </h2>
       <div
         ref={ref}
-        className="w-full aspect-[4/3] mx-auto relative flex items-center justify-center rounded-full bg-circularLight dark:bg-circularDark lg:bg-circularLightLg lg:dark:bg-circularDarkLg md:bg-circularLightMd md:dark:bg-circularDarkMd sm:bg-circularLightSm sm:dark:bg-circularDarkSm md:aspect-[3/4]"
+        className="w-full aspect-[4/3] mx-auto relative flex items-center justify-center rounded-full bg-circularLight dark:bg-circularDark lg:bg-circularLightLg lg:dark:bg-circularDarkLg md:bg-circularLightMd md:dark:bg-circularDarkMd sm:bg-circularLightSm sm:dark:bg-circularDarkSm md:aspect-[5/8]"
       >
-        <p className="flex justify-center items-center text-center bg-dark text-light dark:bg-light dark:text-dark p-6 w-28 h-28 lg:w-24 lg:h-24 md:w-20 md:h-20 md:p-3 xs:w-16 xs:h-16 xs:text-xs font-bold rounded-full shadow-[0_0_40px_rgba(254,90,16,0.55)] md:text-sm">
+        <p className="flex justify-center items-center whitespace-nowrap select-none bg-dark text-light dark:bg-light dark:text-dark w-28 h-28 lg:w-24 lg:h-24 md:w-20 md:h-20 md:text-xs xs:w-16 xs:h-16 xs:text-[10px] font-bold rounded-full">
           Full-stack
         </p>
         <ul aria-label="Skills">
           {NAMES.map((name) => (
             <li
               key={name}
-              className={`skill-bubble absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap bg-dark text-light dark:bg-light dark:text-dark font-semibold rounded-full py-3 px-6 lg:py-2 lg:px-4 md:py-1 md:px-2.5 md:text-xs xs:py-0.5 xs:px-2 xs:text-[10px] transition-transform hover:scale-110 ${phase === 'waiting' ? 'skill-bubble--waiting' : ''} ${phase === 'fly' ? 'skill-bubble--fly' : ''}`}
+              className={`skill-bubble absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap select-none bg-dark text-light dark:bg-light dark:text-dark font-semibold rounded-full py-3 px-6 lg:py-2 lg:px-4 md:py-1 md:px-2.5 md:text-xs xs:py-0.5 xs:px-2 xs:text-[10px] transition-transform hover:scale-110 ${phase === 'waiting' ? 'skill-bubble--waiting' : ''} ${phase === 'fly' ? 'skill-bubble--fly' : ''}`}
               style={positionVars(name)}
             >
               {name}
