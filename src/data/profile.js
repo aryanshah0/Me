@@ -51,7 +51,7 @@ export const EXPERIENCE = [
   },
   {
     role: 'Software Engineer Intern',
-    org: 'Dimension Six',
+    org: 'Hook Daily',
     href: 'https://in.linkedin.com/company/volta-industries-llp',
     period: 'Jun 2024 – Aug 2024',
     location: 'Mumbai, India',
