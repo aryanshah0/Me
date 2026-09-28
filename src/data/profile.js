@@ -52,7 +52,7 @@ export const EXPERIENCE = [
   {
     role: 'Software Engineer Intern',
     org: 'Hook Daily',
-    href: 'https://in.linkedin.com/company/volta-industries-llp',
+    href: 'https://www.hook.bike/',
     period: 'Jun 2024 – Aug 2024',
     location: 'Mumbai, India',
     points: [
