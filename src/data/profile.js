@@ -88,26 +88,31 @@ export const EDUCATION = [
   },
 ]
 
-// Product-first: what I've shipped at E2E, shown on the projects page ahead of side projects.
+// Product-first: what I've shipped at E2E, shown on the projects page ahead of side
+// projects. Each links to the live product (the code itself is private).
 export const WORK_HIGHLIGHTS = [
   {
     title: 'VM Auto Scaling',
     product: 'TIR · GPU/AI cloud',
+    href: 'https://tir.e2enetworks.com/',
     description: 'Scaling groups with schedules, an activity timeline and load balancer attachment, from creation to day-2 editing.',
   },
   {
     title: 'VM Images',
     product: 'TIR · GPU/AI cloud',
+    href: 'https://tir.e2enetworks.com/',
     description: 'Capture a VM as an image, launch fleets from it, or roll a VM back to a known-good state.',
   },
   {
     title: 'E2E Marketplace',
     product: 'GPU cloud console',
+    href: 'https://marketplace.e2enetworks.com/',
     description: 'A micro-frontend I owned end to end: design system, billing and KYC flows, E2E tests and error monitoring.',
   },
   {
     title: 'Compute & sign-in',
     product: 'MyAccount console',
+    href: 'https://myaccount.e2enetworks.com/',
     description: 'Compute node provisioning, a multi-VM create wizard, and a rebuilt sign-up with SMS/voice OTP and social login.',
   },
 ]

@@ -91,17 +91,25 @@ const Projects = () => (
             Shipped at E2E Cloud
           </h2>
           <p className="font-medium text-dark/75 dark:text-light/75 mb-8">
-            Production features in public cloud consoles. The code is private, so here’s what they do.
+            Production features in E2E Cloud’s public consoles. The code is private, but the products are live.
           </p>
           <ul className="grid grid-cols-2 gap-8 md:grid-cols-1">
-            {WORK_HIGHLIGHTS.map(({ title, product, description }) => (
-              <li
-                key={title}
-                className="rounded-2xl border-2 border-dark dark:border-light/60 bg-light/60 dark:bg-dark/60 backdrop-blur-sm p-8 sm:p-6 border-l-8 border-l-saiyan dark:border-l-saiyan"
-              >
-                <p className="text-sm font-semibold uppercase tracking-wide text-kamehameha-ink dark:text-kamehameha">{product}</p>
-                <h3 className="text-2xl font-bold mt-1">{title}</h3>
-                <p className="font-medium mt-2 text-dark/80 dark:text-light/80">{description}</p>
+            {WORK_HIGHLIGHTS.map(({ title, product, description, href }) => (
+              <li key={title}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col h-full rounded-2xl border-2 border-dark dark:border-light/60 bg-light/60 dark:bg-dark/60 backdrop-blur-sm p-8 sm:p-6 border-l-8 border-l-saiyan dark:border-l-saiyan transition-colors hover:border-saiyan dark:hover:border-saiyan"
+                >
+                  <p className="text-sm font-semibold uppercase tracking-wide text-kamehameha-ink dark:text-kamehameha">{product}</p>
+                  <h3 className="text-2xl font-bold mt-1">{title}</h3>
+                  <p className="font-medium mt-2 text-dark/80 dark:text-light/80">{description}</p>
+                  <span className="mt-4 pt-2 text-sm font-semibold text-saiyan-ink dark:text-saiyan group-hover:underline underline-offset-4">
+                    Visit {new URL(href).host} <span aria-hidden="true">↗</span>
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </span>
+                </a>
               </li>
             ))}
           </ul>
